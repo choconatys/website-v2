@@ -5,4 +5,5 @@ export default interface ProductsData {
     description: string;
     price: number;
     quantity: number;
+    priceFormated: string;
 }

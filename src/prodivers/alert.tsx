@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useCallback, useState } from 'react';
-import { v4 as uuid_v4 } from 'uuid';
 import AlertContainer from '../components/alertContainer';
+
+import { v4 as uuid_v4 } from 'uuid';
 
 export interface AlertMessage {
   id: string;

@@ -12,7 +12,7 @@ const AlertContainer: React.FC<AlertContainerProps> = ({ alerts, children, ...pr
   return (
     <Container>
       {alerts?.map((alert) => (
-        <AlertBox key={alert.id} id={alert.id} severity={alert.severity}>{alert.message}</AlertBox>
+        <AlertBox style={{ zIndex: 9999 }} key={alert.id} id={alert.id} severity={alert.severity}>{alert.message}</AlertBox>
       ))}
     </Container>
   );

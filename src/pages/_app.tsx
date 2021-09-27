@@ -8,6 +8,7 @@ import Loading from "../components/loading";
 import { motion } from "framer-motion";
 import { Router } from "next/dist/client/router";
 import { AlertProvider } from "../prodivers/alert";
+import { CartProvider } from "react-use-cart";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {  
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +35,9 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Loading />
       ) : (
         <AlertProvider>
-          <Component {...pageProps} />
+          <CartProvider>
+            <Component {...pageProps} />
+          </CartProvider>
         </AlertProvider>
       )}
       <GlobalStyle />
