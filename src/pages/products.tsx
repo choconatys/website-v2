@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 import Pagination from '@mui/material/Pagination';
 import { Alert, CircularProgress } from "@mui/material";
@@ -174,7 +174,12 @@ const Products: React.FC = () => {
           )}
 
           {(!loading && !internalError && products.length != 0) && (
-            <>
+            <motion.section
+              ref={ref}
+              initial={{ y: 20, opacity: 0 }}
+              animate={animationControl}
+              exit={{ opacity: 0 }}
+            >
               <HeaderContent>
                 <h1>Cardápio</h1>
               </HeaderContent>
@@ -192,11 +197,10 @@ const Products: React.FC = () => {
                   )
                 })}
               </ProductList>
-
               <StackPagination spacing={2}>
                 <Pagination count={1} size="large" />
               </StackPagination>
-            </>
+            </motion.section>
           )}
         </Content>
       </Container>
