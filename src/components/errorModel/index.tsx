@@ -3,10 +3,12 @@ import { useInView } from "react-intersection-observer";
 import { Container, Background } from "./styles";
 
 export interface ErrorModelProps {
-    type: "internalError" | "notFound";
+    type: "internalError" | "notFound" | "notFoundPage";
+    title: string;
+    subTitle: string;
 }
 
-const ErrorModel: React.FC<ErrorModelProps> = ({ type, children }) => {
+const ErrorModel: React.FC<ErrorModelProps> = ({ type, title, subTitle, children }) => {
     const { inView, entry, ref } = useInView();
     const animationControl = useAnimation();
 
@@ -31,19 +33,9 @@ const ErrorModel: React.FC<ErrorModelProps> = ({ type, children }) => {
             <Background type={type} />
 
             <section className="info">
-                {type === "internalError" ? (
-                    <>
-                        <h1>Erro interno no servidor!</h1>
-            
-                        <p>Entre em contato com eu@choconatys.com.br</p>
-                    </>
-                ) : (
-                    <>
-                        <h1>Ops... Que pena :(</h1>
-                    
-                        <p>Atualmente não temos nenhum docinho disponivel!</p>
-                    </>
-                )}
+                <h1>{title}</h1>
+
+                <p>{subTitle}</p>
             </section>
         </Container>
     );

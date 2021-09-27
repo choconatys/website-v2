@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Router } from "next/dist/client/router";
 import { AlertProvider } from "../prodivers/alert";
 import { CartProvider } from "react-use-cart";
+import { AuthProvider } from "../prodivers/auth";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {  
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,7 +37,9 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       ) : (
         <AlertProvider>
           <CartProvider>
-            <Component {...pageProps} />
+            <AuthProvider>
+                <Component {...pageProps} />
+            </AuthProvider>
           </CartProvider>
         </AlertProvider>
       )}

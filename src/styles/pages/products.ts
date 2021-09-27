@@ -4,10 +4,10 @@ import { shade } from "polished";
 import Stack from '@mui/material/Stack';
 
 import styled from "styled-components";
+import { Skeleton } from "@mui/material";
 
 export const Container = styled(motion.main)`
     width: 100%;
-
     display: flex;
     flex-direction: column;
 `;
@@ -41,4 +41,10 @@ export const StackPagination = styled(Stack)`
     margin-top: 4rem;
 
     padding: 0 2rem;
+`;
+
+export const SkeletonItem = styled(Skeleton)`
+    & + & {
+        margin-top: 2rem;
+    }
 `;

@@ -36,8 +36,8 @@ export default createGlobalStyle`
     position: relative;
     /* height: 100vh;
     width: 100vw; */
-    
     overflow: auto;
+    overflow-x: hidden;
 
     font-family: Montserrat, Arial, Helvetica Neue, sans-serif;
     color: var(--text);

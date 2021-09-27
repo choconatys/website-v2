@@ -29,6 +29,10 @@ export const Content = styled.section`
     a {
         color: var(--white);
     }
+
+    p {
+        margin-top: 4rem;
+    }
 `;
 
 export const Logo = styled.img`

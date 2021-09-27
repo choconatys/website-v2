@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 
 import BackgroundInternalError from "../../assets/error500.png";
 import BackgroundNotFoundError from "../../assets/error404.png";
+import BackgroundNotFoundPageError from "../../assets/error404Page.png";
 
 import styled from "styled-components";
-import { ErrorModelProps } from ".";
+import { url } from "inspector";
 
-
+interface ErrorModelBackgroundProps {
+    type: "internalError" | "notFound" | "notFoundPage";
+}
 
 export const Container = styled(motion.section)`
     width: 100%;
@@ -29,11 +32,13 @@ export const Container = styled(motion.section)`
     }
 `;
 
-export const Background = styled.section<ErrorModelProps>`
+export const Background = styled.section<ErrorModelBackgroundProps>`
     width: 100%;
-    height: 25rem;
+    height: 29rem;
 
-    background: url(${props => props.type === "internalError" ? BackgroundInternalError : BackgroundNotFoundError}) center;
+    ${props => props.type === "internalError" && `background: url(${BackgroundInternalError}) center;`}
+    ${props => props.type === "notFound" && `background: url(${BackgroundNotFoundError}) center;`}
+    ${props => props.type === "notFoundPage" && `background: url(${BackgroundNotFoundPageError}) center;`}
     background-size: contain;
     background-repeat: no-repeat;
 `;

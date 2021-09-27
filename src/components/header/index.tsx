@@ -6,11 +6,16 @@ import Logo from "../../assets/logo.png";
 import { useRouter } from 'next/dist/client/router';
 
 import { Container, Navigator, LogoTipo, LogoButton, FinalButton } from "./styles";
+import { HiShoppingCart } from 'react-icons/hi';
+import { Badge } from '@mui/material';
+import { useCart } from 'react-use-cart';
 
 const Header: React.FC = () => {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const { items } = useCart();
 
   useEffect(() => {
     if (router.pathname === "/signin") {
@@ -41,6 +46,14 @@ const Header: React.FC = () => {
               <Link href="/products">
                 <a>
                   Cardápio
+                </a>
+              </Link>
+
+              <Link href="/cart">
+                <a>
+                  <Badge badgeContent={items.length} color="primary">
+                    <HiShoppingCart color="action" />
+                  </Badge>
                 </a>
               </Link>
             </div>

@@ -10,6 +10,7 @@ import Button from "../button";
 import balance from "../../services/balance";
 import { useAlert } from "../../prodivers/alert";
 import { useCart } from "react-use-cart";
+import { useAuth } from "../../prodivers/auth";
 
 interface ProductModalProps {
     product: ProductsData;
@@ -24,6 +25,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
     const animationControl = useAnimation();
 
     const { addItem } = useCart();
+    const { user } = useAuth();
     const { addAlert } = useAlert();
 
     useEffect(() => {
@@ -42,22 +44,33 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
         });
     }
 
-    const increment = () => {
-        if (quantity < product.quantity) {
-            setQuantity(quantity + 1);
-        } else {
-            addAlert({
-                severity: "error",
-                message: "Quantidade máxima em estoque atingida!"
-            })
+    const addInCart = () => {
+        let productToRequest = {
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
         }
+
+        addItem(productToRequest, quantity);
+        addAlert({
+            severity: "success",
+            message: "Item adicionado no carrinho!"
+        });
+
+        setIsVisible(false);
+        document.getElementsByTagName("body")[0].style.overflowY = "scroll";
+    }
+
+    const increment = () => {
+        setQuantity(quantity + 1);
     }
     
     const decrement = () => {
         if (quantity > 0) {
             setQuantity(quantity - 1);
         }
-    };
+    }
     
     return(
         <>
@@ -115,16 +128,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
             
                             <Button
                                 disabled={quantity === 0}
-                                onClick={() => {
-                                    let productToRequest = {
-                                        id: product.id,
-                                        name: product.name,
-                                        description: product.description,
-                                        price: product.price,
-                                    }
-
-                                    addItem(productToRequest, quantity);
-                                }}
+                                onClick={() => addInCart()}
                             >
                                 ADICIONAR 
                                 <span className="leftSpacing">

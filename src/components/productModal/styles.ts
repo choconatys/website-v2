@@ -13,6 +13,8 @@ export const ModalWrapper = styled(motion.div)`
 
     background: rgba(0, 0, 0, .2);
 
+    z-index: 99;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,11 +121,20 @@ export const ModalButtonsWrapper = styled.section`
             align-items: center;
             justify-content: center;
 
-            padding: 1rem;
+            padding: 0 1rem;
             
             font-size: 1.2rem;
-
+            height: 100%;
+            
             color: var(--primary);
+            
+            transition: color, background-color .2s;
+            border-radius: .2rem;
+
+            &:hover {
+                background: var(--primary);
+                color: var(--white);
+            }
         }
     }
 `;

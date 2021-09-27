@@ -16,18 +16,18 @@ const AlertBox: React.FC<AlertBoxProps> = ({ id, severity, children }) => {
     if (inView) {
         animationControl.start({
             opacity: 1,
-            y: 0,
+            x: 0,
             transition: {
-            delay: 0.3,
-            restSpeed: 4,
+                delay: 0.1,
+                restSpeed: 4,
             }
         });
     } else {
         animationControl.start({
-                opacity: 0,
-                y: 20,
-                transition: {
-                delay: 0.3,
+            opacity: 0,
+            x: 20,
+            transition: {
+                delay: 0.1,
                 restSpeed: 4,
             }
         }); 
@@ -36,7 +36,7 @@ const AlertBox: React.FC<AlertBoxProps> = ({ id, severity, children }) => {
     return (
         <Container
             ref={ref} 
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ x: 20, opacity: 0 }}
             animate={animationControl}
         >
             <Alert severity={severity} onClose={() => removeAlert(id)}>
