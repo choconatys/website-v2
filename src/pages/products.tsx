@@ -37,6 +37,7 @@ import {
 } from "../styles/pages/products";
 import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
+import balance from "../services/balance";
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<ProductsData[]>([]);
@@ -55,7 +56,11 @@ const Products: React.FC = () => {
     setTimeout(() => {
       api.get("/products")
       .then((response) => {
-        const productsData: ProductsData[] = response.data;
+        const productsData = response.data;
+        
+        productsData?.map((product) => {
+          product.price = balance(product.price);
+        });
 
         setProducts(productsData);
       })
@@ -128,7 +133,7 @@ const Products: React.FC = () => {
                 <p>{productFocus.description}</p>
 
                 <div className="price">
-                    <span>R$ {productFocus.price}</span>
+                    <span>{productFocus.price}</span>
                 </div>
               </ModalDescription>
             </ModalInfo>
@@ -150,7 +155,7 @@ const Products: React.FC = () => {
                 </button>
               </div>
 
-              <Button>ADICIONAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R$ {productFocus.price}</Button>
+              <Button>ADICIONAR <span className="leftSpacing">{productFocus.price}</span></Button>
             </ModalButtonsWrapper>
           </ModalContent>
         </ModalWrapper>

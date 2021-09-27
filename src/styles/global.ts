@@ -95,6 +95,10 @@ export default createGlobalStyle`
     width: 15rem;
     height: .01rem;
   }
+
+  .leftSpacing {
+    margin-left: 2rem;
+  }
 `;
 
 export const myTheme = createTheme({

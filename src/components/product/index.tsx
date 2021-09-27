@@ -35,7 +35,7 @@ const Product: React.FC<ProductProps> = ({ data, ...props }) => {
             </section>
 
             <section className="price">
-                <h2>R$ {data.price}</h2>
+                <h2>{data.price}</h2>
             </section>
         </Container>
     );
