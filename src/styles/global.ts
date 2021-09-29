@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from "@material-ui/core/styles";
 import { motion } from "framer-motion";
 import { shade } from "polished";
 
@@ -67,7 +67,7 @@ export default createGlobalStyle`
   }
 
   input, textarea, button {
-    font-family: Montserrat, Arial, Helvetica Neue, sans-serif;
+    font-family: "Montserrat", Arial, Helvetica Neue, sans-serif;
   }
 
   * {
@@ -104,13 +104,13 @@ export default createGlobalStyle`
 export const myTheme = createTheme({
   palette: {
     primary: {
-      main: '#FFAABA',
+      main: "#FFAABA",
       contrastText: "#ffff",
     },
     secondary: {
-      light: '#FDC4CE',
-      main: '#FFAABA',
-      contrastText: '#FDC800',
+      light: "#FDC4CE",
+      main: "#FFAABA",
+      contrastText: "#FDC800",
     },
     contrastThreshold: 2,
     tonalOffset: 0.1,
@@ -121,15 +121,15 @@ export const ButtonBack = styled.button`
   position: absolute;
   top: 1.4rem;
   left: 1rem;
-  
-  border-radius: .2rem;
+
+  border-radius: 0.2rem;
 
   color: var(--primary);
 
-  transition: color .2s;
+  transition: color 0.2s;
 
   &:hover {
-    color: ${shade(.1, "#FFAABA")};
+    color: ${shade(0.1, "#FFAABA")};
   }
 
   svg {
@@ -142,8 +142,8 @@ export const ButtonTop = styled.a`
   bottom: 1.4rem;
   right: 1.4rem;
 
-  padding: .8rem;
-  
+  padding: 0.8rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,10 +153,10 @@ export const ButtonTop = styled.a`
   color: var(--white);
   background: var(--primary);
 
-  transition: color .2s;
+  transition: color 0.2s;
 
   &:hover {
-    color: ${shade(.1, "#FFAABA")};
+    color: ${shade(0.1, "#FFAABA")};
   }
 
   svg {

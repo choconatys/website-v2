@@ -25,6 +25,7 @@ import {
 import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
 import balance from "../services/balance";
+import { CircularProgress } from "@mui/material";
 
 const ProductModal = dynamic(() => import("../components/productModal"), {
   loading: () => <p>Carregando...</p>,
@@ -45,11 +46,12 @@ const Products: React.FC = () => {
   const { addAlert } = useAlert();
 
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_API_URL);
     api
       .get("/products")
       .then((response) => {
         const productsData = response.data.data;
+
+        console.log(productsData.length);
 
         productsData?.map((product) => {
           product.priceFormated = balance(product.price);
@@ -102,7 +104,7 @@ const Products: React.FC = () => {
               type="internalError"
             />
           )}
-          {products.length == 0 && !internalError && !loading && (
+          {products.length === 0 && !internalError && !loading && (
             <ErrorModel
               title="Ops... Que pena :("
               subTitle="Atualmente não temos nenhum docinho disponivel!"
@@ -116,14 +118,12 @@ const Products: React.FC = () => {
             animate={animationControl}
             exit={{ opacity: 0 }}
           >
-            {!internalError && (
-              <HeaderContent>
-                <h1>Cardápio</h1>
-              </HeaderContent>
-            )}
-
-            {!loading && !internalError && products.length != 0 ? (
+            {!loading && !internalError && products.length > 0 ? (
               <>
+                <HeaderContent>
+                  <h1>Cardápio</h1>
+                </HeaderContent>
+
                 <ProductList>
                   {products.map((product) => {
                     return (
@@ -144,31 +144,25 @@ const Products: React.FC = () => {
                     );
                   })}
                 </ProductList>
+
+                <StackPagination spacing={2}>
+                  <Pagination count={1} size="large" />
+                </StackPagination>
               </>
             ) : (
               <>
-                {!internalError && (
-                  <div style={{ marginTop: "3rem" }}>
-                    {[0, 1].map((loader) => {
-                      return (
-                        <SkeletonItem
-                          sx={{ bgcolor: "#f0f0f0" }}
-                          variant="rectangular"
-                          key={loader}
-                          animation="wave"
-                          height={"106px"}
-                          width={"100%"}
-                        />
-                      );
-                    })}
+                {loading && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress />
                   </div>
                 )}
               </>
-            )}
-            {!internalError && (
-              <StackPagination spacing={2}>
-                <Pagination count={1} size="large" />
-              </StackPagination>
             )}
           </motion.section>
         </Content>
