@@ -32,10 +32,6 @@ export default class MyDocument extends Document {
               href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap"
               rel="stylesheet"
             ></link>
-            <meta
-              http-equiv="Content-Security-Policy"
-              content="upgrade-insecure-requests"
-            />
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>

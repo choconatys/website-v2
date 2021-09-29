@@ -45,6 +45,7 @@ const Products: React.FC = () => {
   const { addAlert } = useAlert();
 
   useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_API_URL);
     api
       .get("/products")
       .then((response) => {
