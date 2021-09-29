@@ -1,16 +1,14 @@
-import React, { createContext, useContext, useCallback, useState } from 'react';
-import AlertContainer from '../components/alertContainer';
-
-import { v4 as uuid_v4 } from 'uuid';
+import React, { createContext, useContext, useCallback, useState } from "react";
+import AlertContainer from "../components/alertContainer";
 
 export interface AlertMessage {
   id: string;
-  severity: 'success' | 'error' | 'info';
+  severity: "success" | "error" | "info";
   message: string;
 }
 
 interface AlertContextData {
-  addAlert(message: Omit<AlertMessage, 'id'>): void;
+  addAlert(message: Omit<AlertMessage, "id">): void;
   removeAlert(id: string): void;
 }
 
@@ -20,22 +18,22 @@ const AlertProvider: React.FC = ({ children }) => {
   const [alerts, setAlerts] = useState<AlertMessage[]>([]);
 
   const addAlert = useCallback(
-    ({ severity, message }: Omit<AlertMessage, 'id'>) => {
-      const id = uuid_v4();
+    async ({ severity, message }: Omit<AlertMessage, "id">) => {
+      const { v4 } = await import("uuid");
 
       const Alert = {
-        id,
+        id: v4(),
         severity,
         message,
       };
 
-      setAlerts(state => [...state, Alert]);
+      setAlerts((state) => [...state, Alert]);
     },
-    [],
+    []
   );
 
   const removeAlert = useCallback((id: string) => {
-    setAlerts(state => state.filter(message => message.id !== id));
+    setAlerts((state) => state.filter((message) => message.id !== id));
   }, []);
 
   return (
@@ -50,11 +48,10 @@ function useAlert(): AlertContextData {
   const context = useContext(AlertContext);
 
   if (!context) {
-    throw new Error('useAlert must be used within a AlertProvider!');
+    throw new Error("useAlert must be used within a AlertProvider!");
   }
 
   return context;
 }
 
 export { AlertProvider, useAlert };
-

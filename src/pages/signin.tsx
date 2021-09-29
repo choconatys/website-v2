@@ -4,12 +4,11 @@ import Head from "next/head";
 import Button from "../components/button";
 import Input from "../components/input";
 import Header from "../components/header";
-// import Footer from "../components/Footer";
 
-import { HiOutlineChevronLeft } from 'react-icons/hi';
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 import { ButtonBack } from "../styles/global";
-import { 
+import {
   Container,
   Content,
   SignInForm,
@@ -70,7 +69,9 @@ const SignIn: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0.8 }}
               >
-                <ButtonBack onClick={() => setContinueWithEmail(!continueWithEmail)}>
+                <ButtonBack
+                  onClick={() => setContinueWithEmail(!continueWithEmail)}
+                >
                   <HiOutlineChevronLeft />
                 </ButtonBack>
 

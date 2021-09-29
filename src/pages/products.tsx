@@ -1,27 +1,20 @@
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
 
-import Pagination from '@mui/material/Pagination';
-import { Alert, CircularProgress, Skeleton } from "@mui/material";
+import dynamic from "next/dynamic";
 
-import { HiMinusSm, HiPlus } from "react-icons/hi";
-import { RiCloseFill } from "react-icons/ri";
+import Pagination from "@mui/material/Pagination";
 
 import ProductsData from "../interface/products";
 
-import CafeTeste from "../assets/cafe.jpg";
-
 import { api } from "../services/api";
 
-import { LoadingWrapper } from "../styles/global";
-
-import Button from "../components/button";
 import Header from "../components/header";
 import Product from "../components/product";
 
-import { 
+import {
   Container,
   Content,
   HeaderContent,
@@ -32,8 +25,11 @@ import {
 import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
 import balance from "../services/balance";
-import ProductModal from "../components/productModal";
-import Footer from "../components/footer";
+
+const ProductModal = dynamic(() => import("../components/productModal"), {
+  loading: () => <p>Carregando...</p>,
+  ssr: false,
+});
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<ProductsData[]>([]);
@@ -49,36 +45,37 @@ const Products: React.FC = () => {
   const { addAlert } = useAlert();
 
   useEffect(() => {
-    api.get("/products")
-    .then((response) => {
-      const productsData = response.data;
-      
-      productsData?.map((product) => {
-        product.priceFormated = balance(product.price);
-      });
+    api
+      .get("/products")
+      .then((response) => {
+        const productsData = response.data;
 
-      setProducts(productsData);
-    })
-    .catch((error) => {
-      setInternalError(true);
+        productsData?.map((product) => {
+          product.priceFormated = balance(product.price);
+        });
 
-      addAlert({
-        severity: "error",
-        message: "Erro interno no servidor!",
-      });
-    })
-    .finally(() => setLoading(false));
+        setProducts(productsData);
+      })
+      .catch((error) => {
+        setInternalError(true);
+
+        addAlert({
+          severity: "error",
+          message: "Erro interno no servidor!",
+        });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (inView) {
-      animationControl.start({
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: 0.3,
-          restSpeed: 4,
-        }
-      });
+    animationControl.start({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3,
+        restSpeed: 4,
+      },
+    });
   }
 
   return (
@@ -87,20 +84,30 @@ const Products: React.FC = () => {
         <title>Choconatys | Menu</title>
       </Head>
 
-      {productFocus && (
-        <ProductModal product={productFocus} />
-      )}
+      {productFocus && <ProductModal product={productFocus} />}
 
       <Container
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-      >        
+      >
         <Header />
 
         <Content>
-          {internalError && (<ErrorModel title="Erro interno no servidor!" subTitle="Entre em contato com eu@choconatys.com.br" type="internalError" />)}
-          {(products.length == 0 && !internalError && !loading) && (<ErrorModel title="Ops... Que pena :(" subTitle="Atualmente não temos nenhum docinho disponivel!" type="notFound" />)}
+          {internalError && (
+            <ErrorModel
+              title="Erro interno no servidor!"
+              subTitle="Entre em contato com eu@choconatys.com.br"
+              type="internalError"
+            />
+          )}
+          {products.length == 0 && !internalError && !loading && (
+            <ErrorModel
+              title="Ops... Que pena :("
+              subTitle="Atualmente não temos nenhum docinho disponivel!"
+              type="notFound"
+            />
+          )}
 
           <motion.section
             ref={ref}
@@ -108,46 +115,64 @@ const Products: React.FC = () => {
             animate={animationControl}
             exit={{ opacity: 0 }}
           >
-            <HeaderContent>
-              <h1>Cardápio</h1>
-            </HeaderContent>
-            {(!loading && !internalError && products.length != 0) ? (
-              <ProductList>
-                {products.map((product) => {
-                  return (
+            {!internalError && (
+              <HeaderContent>
+                <h1>Cardápio</h1>
+              </HeaderContent>
+            )}
+
+            {!loading && !internalError && products.length != 0 ? (
+              <>
+                <ProductList>
+                  {products.map((product) => {
+                    return (
                       <Product
-                        key={product.id} 
+                        key={product.id}
                         data={product}
                         onClick={() => {
                           setProductFocus(null);
-                          
+
                           setTimeout(() => {
                             setProductFocus(product);
-                            document.getElementsByTagName("body")[0].style.overflowY = "hidden";
+                            document.getElementsByTagName(
+                              "body"
+                            )[0].style.overflowY = "hidden";
                           }, 200);
                         }}
                       />
-                  );
-                  }
-                  )
-                }
-              </ProductList>
+                    );
+                  })}
+                </ProductList>
+              </>
             ) : (
-              <div style={{ marginTop: "3rem" }}>
-                {[0, 1].map((loader) => {
-                  return <SkeletonItem sx={{ bgcolor: "#f0f0f0" }} variant="rectangular" key={loader} animation="wave" height={"106px"} width={"100%"} />;
-                })}
-              </div>
+              <>
+                {!internalError && (
+                  <div style={{ marginTop: "3rem" }}>
+                    {[0, 1].map((loader) => {
+                      return (
+                        <SkeletonItem
+                          sx={{ bgcolor: "#f0f0f0" }}
+                          variant="rectangular"
+                          key={loader}
+                          animation="wave"
+                          height={"106px"}
+                          width={"100%"}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+              </>
             )}
-            
-            <StackPagination spacing={2}>
-              <Pagination count={1} size="large" />
-            </StackPagination>
+            {!internalError && (
+              <StackPagination spacing={2}>
+                <Pagination count={1} size="large" />
+              </StackPagination>
+            )}
           </motion.section>
-
         </Content>
 
-        <Footer style={{ marginTop: "20rem" }} />
+        {/* <Footer style={{ marginTop: "20rem" }} /> */}
       </Container>
     </>
   );

@@ -1,25 +1,23 @@
 import Head from "next/head";
 
-import { HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { HiChevronUp } from "react-icons/hi";
 
 import Button from "../components/button";
 import Header from "../components/header";
 import CardAboutUs from "../components/cardAboutUs";
 
-import { 
+import {
   Container,
   Content,
   Carousel,
   CarouselContent,
-  MouseDown,
   AboutUs,
   Welcome,
   ButtonsWrapper,
-  ButtonAboutUs
+  ButtonAboutUs,
 } from "../styles/pages";
 
 import { ButtonTop } from "../styles/global";
-import Footer from "../components/footer";
 import { useRouter } from "next/dist/client/router";
 
 const Home: React.FC = () => {
@@ -39,7 +37,7 @@ const Home: React.FC = () => {
         <ButtonTop href="#topPage">
           <HiChevronUp />
         </ButtonTop>
-        
+
         <Header />
 
         <Carousel>
@@ -47,10 +45,14 @@ const Home: React.FC = () => {
             <Welcome>
               <h1>Bem vindo a Choconaty's</h1>
 
-              <h2>Nosso objetivo é adocicar aquele seu dia triste e sem graça!</h2>
-            
+              <h2>
+                Nosso objetivo é adocicar aquele seu dia triste e sem graça!
+              </h2>
+
               <ButtonsWrapper>
-                <Button onClick={() => router.push("/products")}>Ver Cardápio</Button>
+                <Button onClick={() => router.push("/products")}>
+                  Ver Cardápio
+                </Button>
                 <ButtonAboutUs href="#aboutUs">Sobre Nós</ButtonAboutUs>
               </ButtonsWrapper>
             </Welcome>
@@ -62,7 +64,7 @@ const Home: React.FC = () => {
           </AboutUs>
         </Content>
 
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     </>
   );
