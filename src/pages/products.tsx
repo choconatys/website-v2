@@ -51,8 +51,6 @@ const Products: React.FC = () => {
       .then((response) => {
         const productsData = response.data.data;
 
-        console.log(productsData.length);
-
         productsData?.map((product) => {
           product.priceFormated = balance(product.price);
         });
