@@ -48,7 +48,7 @@ const Products: React.FC = () => {
     api
       .get("/products")
       .then((response) => {
-        const productsData = response.data;
+        const productsData = response.data.data;
 
         productsData?.map((product) => {
           product.priceFormated = balance(product.price);
