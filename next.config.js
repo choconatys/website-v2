@@ -29,9 +29,4 @@ const withFonts = require("next-fonts");
         return config;
       },
     })
-  ),
-  {
-    env: {
-      BASE_URL: process.env.NEXT_PUBLIC_API_URL,
-    },
-  };
+  );
