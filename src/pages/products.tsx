@@ -26,13 +26,15 @@ import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
 import balance from "../services/balance";
 import { CircularProgress } from "@mui/material";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
 const ProductModal = dynamic(() => import("../components/productModal"), {
   loading: () => <p>Carregando...</p>,
   ssr: false,
 });
 
-const Products: React.FC = () => {
+const Products: React.FC = (props: any) => {
   const [products, setProducts] = useState<ProductsData[]>([]);
   const [productFocus, setProductFocus] = useState<ProductsData>(null);
   const [quantity, setQuantity] = useState(0);
@@ -92,7 +94,7 @@ const Products: React.FC = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <Header />
+        <Header isAuthenticated={props.isAuth} />
 
         <Content>
           {internalError && (
@@ -169,6 +171,16 @@ const Products: React.FC = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "choconatys.token": token } = parseCookies(ctx);
+
+  return {
+    props: {
+      isAuth: !!token,
+    },
+  };
 };
 
 export default Products;

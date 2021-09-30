@@ -19,8 +19,11 @@ import {
 
 import { ButtonTop } from "../styles/global";
 import { useRouter } from "next/dist/client/router";
+import { useAuth } from "../prodivers/auth";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-const Home: React.FC = () => {
+const Home: React.FC = (props: any) => {
   const router = useRouter();
 
   return (
@@ -38,7 +41,7 @@ const Home: React.FC = () => {
           <HiChevronUp />
         </ButtonTop>
 
-        <Header />
+        <Header isAuthenticated={props.isAuth} />
 
         <Carousel>
           <CarouselContent>
@@ -68,6 +71,16 @@ const Home: React.FC = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "choconatys.token": token } = parseCookies(ctx);
+
+  return {
+    props: {
+      isAuth: !!token,
+    },
+  };
 };
 
 export default Home;

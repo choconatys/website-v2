@@ -1,16 +1,26 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 
 import Logo from "../../assets/logo.png";
 
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from "next/dist/client/router";
 
-import { Container, Navigator, LogoTipo, LogoButton, FinalButton } from "./styles";
-import { HiShoppingCart } from 'react-icons/hi';
-import { Badge } from '@mui/material';
-import { useCart } from 'react-use-cart';
+import {
+  Container,
+  Navigator,
+  LogoTipo,
+  LogoButton,
+  FinalButton,
+} from "./styles";
+import { HiShoppingCart } from "react-icons/hi";
+import { Badge } from "@mui/material";
+import { useCart } from "react-use-cart";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  isAuthenticated: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ isAuthenticated }: HeaderProps) => {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(false);
 
   const router = useRouter();
@@ -38,15 +48,11 @@ const Header: React.FC = () => {
           <section className="controllers">
             <div className="buttons">
               <Link href="/">
-                <a>
-                  Início
-                </a>
+                <a>Início</a>
               </Link>
 
               <Link href="/products">
-                <a>
-                  Cardápio
-                </a>
+                <a>Cardápio</a>
               </Link>
 
               <Link href="/cart">
@@ -58,16 +64,16 @@ const Header: React.FC = () => {
               </Link>
             </div>
 
-            <Link href="/signin">
-              <FinalButton>
-                Entrar
-              </FinalButton>
-            </Link>
+            {!isAuthenticated && (
+              <Link href="/signin">
+                <FinalButton>Entrar</FinalButton>
+              </Link>
+            )}
           </section>
         )}
       </Navigator>
     </Container>
   );
-}
+};
 
 export default Header;

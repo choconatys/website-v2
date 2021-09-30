@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { AppProps } from "next/app";
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from "@mui/material/styles";
 
 import GlobalStyle, { myTheme } from "../styles/global";
 
 import Loading from "../components/loading";
 import { motion } from "framer-motion";
-import { Router } from "next/dist/client/router";
+import { Router, useRouter } from "next/dist/client/router";
 import { AlertProvider } from "../prodivers/alert";
 import { CartProvider } from "react-use-cart";
-import { AuthProvider } from "../prodivers/auth";
+import { AuthProvider, useAuth } from "../prodivers/auth";
+import AppProvider from "../prodivers";
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {  
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [loading, setLoading] = useState<boolean>(true);
+
+  const {} = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     Router.events.on("routeChangeComplete", (e) => {
@@ -35,17 +39,13 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       {loading ? (
         <Loading />
       ) : (
-        <AlertProvider>
-          <CartProvider>
-            <AuthProvider>
-                <Component {...pageProps} />
-            </AuthProvider>
-          </CartProvider>
-        </AlertProvider>
+        <AppProvider>
+          <Component {...pageProps} />
+        </AppProvider>
       )}
       <GlobalStyle />
     </ThemeProvider>
   );
-}
+};
 
-export default MyApp
+export default MyApp;

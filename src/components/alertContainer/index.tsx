@@ -1,21 +1,43 @@
-import { AlertMessage } from "../../prodivers/alert";
+import { useTransition } from "react-spring";
+
 import AlertBox from "../alertBox";
+import { AlertMessage } from "../../prodivers/alert";
 import { Container } from "./styles";
+import { useEffect, useState } from "react";
 
 interface AlertContainerProps {
-  alerts?: AlertMessage[];
+  alerts: AlertMessage[];
 }
 
-const AlertContainer: React.FC<AlertContainerProps> = ({ alerts, children, ...props }) => {
-  
+const AlertContainer: React.FC<AlertContainerProps> = ({
+  alerts,
+  children,
+  ...props
+}) => {
+  const transitions = useTransition(alerts, {
+    from: { right: "-120%", opacity: 0 },
+    enter: { right: "0%", opacity: 1 },
+    leave: { right: "-120%", opacity: 0 },
+  });
 
   return (
     <Container>
-      {alerts?.map((alert) => (
-        <AlertBox style={{ zIndex: 9999 }} key={alert.id} id={alert.id} severity={alert.severity}>{alert.message}</AlertBox>
+      {transitions(({ opacity, right }, item) => (
+        <AlertBox
+          key={item.id}
+          id={item.id}
+          severity={item.severity}
+          style={{
+            zIndex: 9999,
+            opacity,
+            right,
+          }}
+        >
+          {item.message}
+        </AlertBox>
       ))}
     </Container>
   );
-}
+};
 
 export default AlertContainer;

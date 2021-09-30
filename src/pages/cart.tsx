@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import Head from "next/head";
 
 import Header from "../components/header";
+import Button from "../components/button";
 
 import { useCart } from "react-use-cart";
 
@@ -15,16 +16,22 @@ import {
   ItemCart,
   Items,
   ModalButtonsWrapper,
+  FinishOrder,
 } from "../styles/pages/cart";
 import { HiMinusSm, HiPlus } from "react-icons/hi";
 import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
+import balance from "../services/balance";
+import { useAuth } from "../prodivers/auth";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-const Cart: React.FC = () => {
+const Cart: React.FC = (props: any) => {
   const { inView, entry, ref } = useInView();
   const animationControl = useAnimation();
 
-  const { items, updateItemQuantity } = useCart();
+  const { user } = useAuth();
+  const { items, cartTotal, updateItemQuantity } = useCart();
   const { addAlert } = useAlert();
 
   if (inView) {
@@ -37,6 +44,17 @@ const Cart: React.FC = () => {
       },
     });
   }
+
+  const finishOrder = async () => {
+    if (!user) {
+      addAlert({
+        severity: "error",
+        message: "Você precisa estar logado!",
+      });
+    } else {
+      console.log("Ordem finalizada!");
+    }
+  };
 
   const increment = (item) => {
     updateItemQuantity(item.id, item.quantity + 1);
@@ -65,7 +83,7 @@ const Cart: React.FC = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <Header />
+        <Header isAuthenticated={props.isAuth} />
 
         <Content>
           <motion.section
@@ -119,6 +137,13 @@ const Cart: React.FC = () => {
                     </ItemCart>
                   ))}
                 </Items>
+
+                <FinishOrder>
+                  <h1>{balance(cartTotal)}</h1>
+                  <Button onClick={() => finishOrder()}>
+                    Finalizar Pedido
+                  </Button>
+                </FinishOrder>
               </>
             )}
           </motion.section>
@@ -128,6 +153,16 @@ const Cart: React.FC = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "choconatys.token": token } = parseCookies(ctx);
+
+  return {
+    props: {
+      isAuth: !!token,
+    },
+  };
 };
 
 export default Cart;

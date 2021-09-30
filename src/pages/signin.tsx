@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Head from "next/head";
 
 import Button from "../components/button";
@@ -12,13 +12,48 @@ import {
   Container,
   Content,
   SignInForm,
-  MoreInformation,
   FormWrapper,
   FormAnimation,
 } from "../styles/pages/signin";
+import { useAuth } from "../prodivers/auth";
+import { useAlert } from "../prodivers/alert";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
 const SignIn: React.FC = () => {
   const [continueWithEmail, setContinueWithEmail] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [emailField, setEmailField] = useState<string>("");
+  const [passwordField, setPasswordField] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+
+  const { login } = useAuth();
+
+  const { addAlert } = useAlert();
+
+  const handleSubmitForm = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!emailField) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+
+    if (!passwordField) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+
+    await login({
+      email: emailField,
+      password: passwordField,
+    }).then(() => setLoading(false));
+  };
 
   return (
     <>
@@ -31,7 +66,7 @@ const SignIn: React.FC = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <Header />
+        <Header isAuthenticated={false} />
         <Content>
           {!continueWithEmail && (
             <FormWrapper
@@ -80,29 +115,37 @@ const SignIn: React.FC = () => {
                   <h2>Aproveite para dar uma olhada no nosso cardápio</h2>
                 </section>
 
-                <SignInForm>
+                <SignInForm onSubmit={(e) => handleSubmitForm(e)}>
                   <Input
                     id="email"
                     type="email"
                     placeholder="Digite seu email"
                     label="Email"
-                    required
+                    onChange={(event: any) => setEmailField(event.target.value)}
+                    error={emailError}
                   />
                   <Input
                     id="password"
                     type="password"
                     placeholder="Digite sua senha"
                     label="Senha"
-                    required
+                    onChange={(event: any) =>
+                      setPasswordField(event.target.value)
+                    }
+                    error={passwordError}
                   />
 
-                  <Button type="submit" style={{ marginTop: 40 }} disabled>
-                    Entrar
+                  <Button
+                    type="submit"
+                    style={{ marginTop: 40 }}
+                    disabled={!passwordField && !emailField}
+                  >
+                    {loading ? "Carregando..." : "Entrar"}
                   </Button>
 
-                  <MoreInformation>
+                  {/* <MoreInformation>
                     <a href="#">Esqueceu sua Senha?</a>
-                  </MoreInformation>
+                  </MoreInformation> */}
                 </SignInForm>
               </FormAnimation>
             </FormWrapper>
@@ -111,6 +154,23 @@ const SignIn: React.FC = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { "choconatys.token": token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default SignIn;

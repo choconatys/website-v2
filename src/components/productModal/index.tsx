@@ -101,10 +101,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
             </ModalCloseButton>
 
             <section className="photoWrapper">
-              <ModalPhoto
-                src={`https://choconatys.herokuapp.com/v1/${product.photo}`}
-                alt="Photo"
-              />
+              <ModalPhoto src={`${product.photo}`} alt="Photo" />
             </section>
 
             <ModalInfo>
