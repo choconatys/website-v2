@@ -10,6 +10,7 @@ export const Container = styled(motion.main)`
 
 export const ItemCart = styled(motion.section)`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 
@@ -34,6 +35,23 @@ export const ItemCart = styled(motion.section)`
 
   h1 {
     font-size: 1.5rem;
+  }
+
+  .info {
+    width: 90%;
+    max-width: 400px;
+
+    h1 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;
 
@@ -104,12 +122,17 @@ export const ModalButtonsWrapper = styled.section`
       }
     }
   }
+
+  @media (max-width: 671px) {
+    margin-top: 1rem;
+  }
 `;
 
 export const FinishOrder = styled.section`
   max-width: 600px;
 
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 
@@ -121,6 +144,13 @@ export const FinishOrder = styled.section`
   }
 
   button {
-    max-width: 20rem;
+    max-width: 15rem;
+  }
+
+  @media (max-width: 410px) {
+    button {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
   }
 `;

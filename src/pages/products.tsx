@@ -48,6 +48,11 @@ const Products: React.FC = (props: any) => {
   const { addAlert } = useAlert();
 
   useEffect(() => {
+    addAlert({
+      severity: "success",
+      message: "oi",
+    });
+
     api
       .get("/products")
       .then((response) => {
