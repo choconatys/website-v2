@@ -109,12 +109,14 @@ export function AuthProvider({ children }) {
           severity: "error",
           message: "Email ou Senha inválida!",
         });
+        return;
       })
       .catch((errorLogin) => {
         addAlert({
           severity: "error",
           message: "Verifique os campos!",
         });
+        return;
       });
   }
 

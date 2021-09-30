@@ -52,7 +52,14 @@ const SignIn: React.FC = () => {
     await login({
       email: emailField,
       password: passwordField,
-    }).then(() => setLoading(false));
+    })
+      .catch(() => {
+        addAlert({
+          severity: "error",
+          message: "Email ou Senha inválida!",
+        });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
