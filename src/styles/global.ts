@@ -22,6 +22,22 @@ export default createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  :-moz-selection { /* Code for Firefox */
+    position: relative;
+    background: var(--white);
+    /* height: 100vh;
+    width: 100vw; */
+    overflow: auto;
+    overflow-x: hidden;
+
+    font-family: Montserrat, Arial, Helvetica Neue, sans-serif;
+    color: var(--text);
+  }
+  ::selection {
+    color: #ffffff;
+    background: #FFAABA;
+  }
+
   body {
     position: relative;
     /* height: 100vh;
