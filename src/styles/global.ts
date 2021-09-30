@@ -18,16 +18,6 @@ export default createGlobalStyle`
     --green: #53A875;
   }
 
-  ::-moz-selection { /* Code for Firefox */
-    color: #ffffff;
-    background: #FFAABA;
-  }
-
-  ::selection {
-    color: #ffffff;
-    background: #FFAABA;
-  }
-
   html {
     scroll-behavior: smooth;
   }

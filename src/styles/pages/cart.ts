@@ -65,6 +65,8 @@ export const Content = styled.section`
 `;
 
 export const HeaderContent = styled.header`
+  width: 100%;
+
   h1 {
     font-family: Ephesis;
     font-size: 5rem;

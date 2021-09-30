@@ -1,5 +1,7 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
 import Button from "../components/button";
 import Input from "../components/input";
@@ -7,6 +9,8 @@ import Header from "../components/header";
 
 import { HiOutlineChevronLeft } from "react-icons/hi";
 
+import { useAlert } from "../prodivers/alert";
+import { useAuth } from "../prodivers/auth";
 import { ButtonBack } from "../styles/global";
 import {
   Container,
@@ -15,10 +19,6 @@ import {
   FormWrapper,
   FormAnimation,
 } from "../styles/pages/signin";
-import { useAuth } from "../prodivers/auth";
-import { useAlert } from "../prodivers/alert";
-import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 
 const SignIn: React.FC = () => {
   const [continueWithEmail, setContinueWithEmail] = useState<boolean>(false);

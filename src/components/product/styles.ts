@@ -52,15 +52,17 @@ export const Container = styled(motion.button)`
   @media (max-width: 556px) {
     flex-wrap: wrap;
 
-    .price {
-      margin-top: 1rem;
-    }
-
     .info {
       h1 {
-        font-size: 1rem;
+        font-size: 1.3rem;
         text-align: left;
       }
+    }
+  }
+
+  @media (max-width: 488px) {
+    .price {
+      margin-top: 1rem;
     }
   }
 `;

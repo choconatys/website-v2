@@ -171,7 +171,7 @@ export const ModalButtonsWrapper = styled.section`
     }
   }
 
-  @media (max-width: 446px) {
+  @media (max-width: 477px) {
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
@@ -204,4 +204,9 @@ export const ModalCloseButton = styled.button`
   font-size: 1.2rem;
 
   color: var(--primary);
+
+  @media (max-width: 477px) {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 `;
