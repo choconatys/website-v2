@@ -26,8 +26,6 @@ const SignIn: React.FC = () => {
 
   const [emailField, setEmailField] = useState<string>("");
   const [passwordField, setPasswordField] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
 
   const { login } = useAuth();
 
@@ -36,18 +34,6 @@ const SignIn: React.FC = () => {
   const handleSubmitForm = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-
-    if (!emailField) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
-
-    if (!passwordField) {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
-    }
 
     await login({
       email: emailField,
@@ -129,7 +115,7 @@ const SignIn: React.FC = () => {
                     placeholder="Digite seu email"
                     label="Email"
                     onChange={(event: any) => setEmailField(event.target.value)}
-                    error={emailError}
+                    required
                   />
                   <Input
                     id="password"
@@ -139,7 +125,7 @@ const SignIn: React.FC = () => {
                     onChange={(event: any) =>
                       setPasswordField(event.target.value)
                     }
-                    error={passwordError}
+                    required
                   />
 
                   <Button
@@ -149,10 +135,6 @@ const SignIn: React.FC = () => {
                   >
                     {loading ? "Carregando..." : "Entrar"}
                   </Button>
-
-                  {/* <MoreInformation>
-                    <a href="#">Esqueceu sua Senha?</a>
-                  </MoreInformation> */}
                 </SignInForm>
               </FormAnimation>
             </FormWrapper>

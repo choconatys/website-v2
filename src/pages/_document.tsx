@@ -1,6 +1,8 @@
 import Document from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
+import LogoPng from "../../public/icon.png";
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
@@ -32,6 +34,7 @@ export default class MyDocument extends Document {
               href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap"
               rel="stylesheet"
             ></link>
+            <link rel="icon" type="image/png" href={LogoPng} />
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>

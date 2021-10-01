@@ -4,6 +4,8 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import GlobalStyle, { myTheme } from "../styles/global";
 
+import Head from "next/head";
+
 import Loading from "../components/loading";
 import { motion } from "framer-motion";
 import { Router, useRouter } from "next/dist/client/router";
@@ -35,16 +37,22 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={myTheme}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <AppProvider>
-          <Component {...pageProps} />
-        </AppProvider>
-      )}
-      <GlobalStyle />
-    </ThemeProvider>
+    <>
+      <Head>
+        <title>Carregando...</title>
+      </Head>
+
+      <ThemeProvider theme={myTheme}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <AppProvider>
+            <Component {...pageProps} />
+          </AppProvider>
+        )}
+        <GlobalStyle />
+      </ThemeProvider>
+    </>
   );
 };
 

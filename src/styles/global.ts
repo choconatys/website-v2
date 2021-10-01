@@ -105,6 +105,17 @@ export default createGlobalStyle`
   .leftSpacing {
     margin-left: 2rem;
   }
+
+  .circle {
+    height: 1.5rem;
+    width: 1.5rem;
+
+    border-radius: 50%;
+  }
+
+  .green {
+    background: var(--green);
+  }
 `;
 
 export const myTheme = createTheme({

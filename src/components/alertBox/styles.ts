@@ -11,4 +11,6 @@ export const Container = styled(motion.section)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  z-index: 9999;
 `;

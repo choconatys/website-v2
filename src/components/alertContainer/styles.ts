@@ -8,6 +8,7 @@ export const Container = styled(motion.section)`
   max-width: 400px;
 
   position: absolute;
+  z-index: 9999;
 
   top: 1rem;
   right: 1rem;

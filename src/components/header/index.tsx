@@ -12,7 +12,7 @@ import {
   LogoButton,
   FinalButton,
 } from "./styles";
-import { HiShoppingCart } from "react-icons/hi";
+import { HiShoppingCart, HiShoppingBag } from "react-icons/hi";
 import { Badge } from "@mui/material";
 import { useCart } from "react-use-cart";
 
@@ -54,6 +54,20 @@ const Header: React.FC<HeaderProps> = ({ isAuthenticated }: HeaderProps) => {
               <Link href="/products">
                 <a>Cardápio</a>
               </Link>
+
+              {isAuthenticated && (
+                <>
+                  <Link href="/profile">
+                    <a>Perfil</a>
+                  </Link>
+
+                  <Link href="/orders">
+                    <a>
+                      <HiShoppingBag />
+                    </a>
+                  </Link>
+                </>
+              )}
 
               <Link href="/cart">
                 <a>

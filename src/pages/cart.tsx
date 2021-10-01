@@ -25,13 +25,19 @@ import balance from "../services/balance";
 import { useAuth } from "../prodivers/auth";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
+import { api } from "../services/api";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { CircularProgress } from "@material-ui/core";
 
 const Cart: React.FC = (props: any) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const { inView, entry, ref } = useInView();
   const animationControl = useAnimation();
 
-  const { user } = useAuth();
-  const { items, cartTotal, updateItemQuantity } = useCart();
+  const { logout } = useAuth();
+  const { items, removeItem, cartTotal, updateItemQuantity } = useCart();
+  const router = useRouter();
   const { addAlert } = useAlert();
 
   if (inView) {
@@ -45,14 +51,65 @@ const Cart: React.FC = (props: any) => {
     });
   }
 
+  const makeId = (length) => {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result.toUpperCase();
+  };
+
   const finishOrder = async () => {
-    if (!user) {
+    setLoading(true);
+    if (!props.isAuth) {
       addAlert({
         severity: "error",
         message: "Você precisa estar logado!",
       });
     } else {
-      console.log("Ordem finalizada!");
+      const code = makeId(8);
+
+      items.map(async (item) => {
+        await api
+          .post(`/requests/${item.id}`, {
+            quantity: item.quantity,
+            code,
+          })
+          .then(async () => {
+            await Promise.all(
+              items.map((item: any) => {
+                removeItem(item.id);
+              })
+            ).then(() => {
+              addAlert({
+                severity: "success",
+                message: "Pedido concluído! \n Redirecionando...",
+              });
+
+              setTimeout(() => {
+                router.push("/");
+              }, 1000);
+            });
+          })
+          .catch((error) => {
+            if (error.message == "Request failed with status code 401") {
+              logout();
+              router.push("/login");
+              return;
+            }
+
+            addAlert({
+              severity: "error",
+              message: "Verifique os itens novamente!",
+            });
+          })
+          .finally(() => setLoading(false));
+      });
     }
   };
 
@@ -100,50 +157,64 @@ const Cart: React.FC = (props: any) => {
               />
             ) : (
               <>
-                <HeaderContent>
-                  <h1>Carrinho</h1>
-                </HeaderContent>
+                {loading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                ) : (
+                  <>
+                    <HeaderContent>
+                      <h1>Carrinho</h1>
+                    </HeaderContent>
 
-                <Items>
-                  {items.map((item) => (
-                    <ItemCart
-                      key={item.id}
-                      ref={ref}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={animationControl}
-                    >
-                      <div className="info">
-                        <h1>{item.name}</h1>
-                        <p>{item.description}</p>
-                      </div>
+                    <Items>
+                      {items.map((item) => (
+                        <ItemCart
+                          key={item.id}
+                          ref={ref}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={animationControl}
+                        >
+                          <div className="info">
+                            <h1>{item.name}</h1>
+                            <p>{item.description}</p>
+                          </div>
 
-                      <ModalButtonsWrapper>
-                        <div className="quantityWrapper">
-                          <button
-                            onClick={() => decrement(item)}
-                            className="quantityButton"
-                          >
-                            <HiMinusSm />
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            onClick={() => increment(item)}
-                            className="quantityButton"
-                          >
-                            <HiPlus />
-                          </button>
-                        </div>
-                      </ModalButtonsWrapper>
-                    </ItemCart>
-                  ))}
-                </Items>
+                          <ModalButtonsWrapper>
+                            <div className="quantityWrapper">
+                              <button
+                                onClick={() => decrement(item)}
+                                className="quantityButton"
+                              >
+                                <HiMinusSm />
+                              </button>
+                              <span>{item.quantity}</span>
+                              <button
+                                onClick={() => increment(item)}
+                                className="quantityButton"
+                              >
+                                <HiPlus />
+                              </button>
+                            </div>
+                          </ModalButtonsWrapper>
+                        </ItemCart>
+                      ))}
+                    </Items>
 
-                <FinishOrder>
-                  <h1>{balance(cartTotal)}</h1>
-                  <Button onClick={() => finishOrder()}>
-                    Finalizar Pedido
-                  </Button>
-                </FinishOrder>
+                    <FinishOrder>
+                      <h1>{balance(cartTotal)}</h1>
+                      <Button onClick={() => finishOrder()}>
+                        {loading ? "Carregando..." : "Finalizar Pedido"}
+                      </Button>
+                    </FinishOrder>
+                  </>
+                )}
               </>
             )}
           </motion.section>

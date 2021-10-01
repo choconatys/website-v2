@@ -23,6 +23,7 @@ type AuthContextProps = {
   isAuthenticated: boolean;
   login: ({ email, password }: LoginData) => Promise<any>;
   logout: () => void;
+  updateUser: (user: User) => void;
   createUser: (data: any) => Promise<any>;
 };
 
@@ -39,6 +40,10 @@ export function AuthProvider({ children }) {
     if (token) {
       verifyToken(token).then(({ user, token }: AuthResponseLogin) => {
         setCookie(undefined, "choconatys.token", token, {
+          maxAge: 60 * 60 * 1, // UMA HORA
+        });
+
+        setCookie(undefined, "choconatys.user", JSON.stringify(user), {
           maxAge: 60 * 60 * 1, // UMA HORA
         });
 
@@ -65,12 +70,24 @@ export function AuthProvider({ children }) {
           maxAge: 60 * 60 * 1, // UMA HORA
         });
 
+        setCookie(undefined, "choconatys.user", JSON.stringify(user), {
+          maxAge: 60 * 60 * 1, // UMA HORA
+        });
+
         api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
         setUser(user);
       });
     }
   }, []);
+
+  function updateUser(user): void {
+    setCookie(undefined, "choconatys.user", JSON.stringify(user), {
+      maxAge: 60 * 60 * 1, // UMA HORA
+    });
+
+    setUser(user);
+  }
 
   async function createUser(data) {
     return await api
@@ -94,6 +111,10 @@ export function AuthProvider({ children }) {
 
         if (user && token) {
           setCookie(undefined, "choconatys.token", token, {
+            maxAge: 60 * 60 * 1, // UMA HORA
+          });
+
+          setCookie(undefined, "choconatys.user", JSON.stringify(user), {
             maxAge: 60 * 60 * 1, // UMA HORA
           });
 
@@ -123,13 +144,14 @@ export function AuthProvider({ children }) {
   const logout = useCallback(async () => {
     await Router.push("/login");
     destroyCookie(undefined, "choconatys.token");
+    destroyCookie(undefined, "choconatys.user");
     api.defaults.headers["Authorization"] = null;
     setUser(null);
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, createUser, login, logout }}
+      value={{ user, isAuthenticated, updateUser, createUser, login, logout }}
     >
       {children}
     </AuthContext.Provider>

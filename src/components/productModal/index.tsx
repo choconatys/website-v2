@@ -33,7 +33,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   const animationControl = useAnimation();
 
   const { addItem } = useCart();
-  const { user } = useAuth();
   const { addAlert } = useAlert();
 
   useEffect(() => {
