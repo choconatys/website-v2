@@ -5,33 +5,40 @@ import { useInView } from "react-intersection-observer";
 import Head from "next/head";
 
 import Header from "../components/header";
-import Button from "../components/button";
-
-import { useCart } from "react-use-cart";
 
 import {
   Container,
   Content,
   HeaderContent,
-  ItemOrder,
   Items,
-  FinishOrder,
 } from "../styles/pages/orders";
-import { HiMinusSm, HiPlus } from "react-icons/hi";
 import { useAlert } from "../prodivers/alert";
 import ErrorModel from "../components/errorModel";
-import balance from "../services/balance";
-import { useAuth } from "../prodivers/auth";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../services/api";
+import balance from "../services/balance";
+import OrderItem, { OrderItemProps } from "../components/orderItem";
 
 const Orders: React.FC = (props: any) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [orders, setOrders] = useState<OrderItemProps[]>([]);
   const { inView, entry, ref } = useInView();
   const animationControl = useAnimation();
 
-  const { items, cartTotal, updateItemQuantity } = useCart();
   const { addAlert } = useAlert();
+
+  useEffect(() => {
+    api
+      .get(`/requests/user`)
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   if (inView) {
     animationControl.start({
@@ -64,10 +71,10 @@ const Orders: React.FC = (props: any) => {
             animate={animationControl}
             exit={{ opacity: 0 }}
           >
-            {items.length <= 0 ? (
+            {!loading && orders.length <= 0 ? (
               <ErrorModel
                 title="Ops..."
-                subTitle="Nenhum item no carrinho encontrado!"
+                subTitle="Nenhum pedido encontrado!"
                 type="notFound"
               />
             ) : (
@@ -77,24 +84,21 @@ const Orders: React.FC = (props: any) => {
                 </HeaderContent>
 
                 <Items>
-                  {items.map((item) => (
-                    <ItemOrder
-                      key={item.id}
-                      ref={ref}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={animationControl}
-                    >
-                      <div className="info">
-                        <h2>Caneca vidro jateado.....</h2>
-                      </div>
+                  {orders.map((order) => {
+                    const orderItem = order[String(Object.keys(order))];
 
-                      <div className="status">
-                        <div className="circle green"></div>
-
-                        <p>EM ANDAMENTO</p>
-                      </div>
-                    </ItemOrder>
-                  ))}
+                    return (
+                      <motion.div
+                        key={orderItem.code}
+                        ref={ref}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={animationControl}
+                        style={{ marginBottom: "2rem" }}
+                      >
+                        <OrderItem order={orderItem} />
+                      </motion.div>
+                    );
+                  })}
                 </Items>
               </>
             )}
