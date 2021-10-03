@@ -18,8 +18,8 @@ import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
-import balance from "../services/balance";
 import OrderItem, { OrderItemProps } from "../components/orderItem";
+import { CircularProgress } from "@mui/material";
 
 const Orders: React.FC = (props: any) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -33,10 +33,14 @@ const Orders: React.FC = (props: any) => {
     api
       .get(`/requests/user`)
       .then((response) => {
-        setOrders(response.data);
-      })
-      .finally(() => {
+        setOrders(response.data.data);
         setLoading(false);
+      })
+      .catch(() => {
+        addAlert({
+          severity: "error",
+          message: "Erro ao tentar encontrar os pedidos!",
+        });
       });
   }, []);
 
@@ -71,13 +75,27 @@ const Orders: React.FC = (props: any) => {
             animate={animationControl}
             exit={{ opacity: 0 }}
           >
-            {!loading && orders.length <= 0 ? (
+            {loading && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <CircularProgress />
+              </div>
+            )}
+            {loading == false && orders.length <= 0 && (
               <ErrorModel
                 title="Ops..."
                 subTitle="Nenhum pedido encontrado!"
                 type="notFound"
               />
-            ) : (
+            )}
+
+            {loading == false && orders.length != 0 && (
               <>
                 <HeaderContent>
                   <h1>Pedidos</h1>
@@ -85,19 +103,15 @@ const Orders: React.FC = (props: any) => {
 
                 <Items>
                   {orders.map((order) => {
-                    const orderItem = order[String(Object.keys(order))];
+                    if (order) {
+                      const orderItem = order[String(Object.keys(order))];
 
-                    return (
-                      <motion.div
-                        key={orderItem.code}
-                        ref={ref}
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={animationControl}
-                        style={{ marginBottom: "2rem" }}
-                      >
-                        <OrderItem order={orderItem} />
-                      </motion.div>
-                    );
+                      return (
+                        <motion.div key={orderItem.code}>
+                          <OrderItem order={orderItem} />
+                        </motion.div>
+                      );
+                    }
                   })}
                 </Items>
               </>

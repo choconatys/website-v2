@@ -74,42 +74,40 @@ const Cart: React.FC = (props: any) => {
     } else {
       const code = makeId(8);
 
-      items.map(async (item) => {
-        await api
-          .post(`/requests/${item.id}`, {
-            quantity: item.quantity,
-            code,
-          })
-          .then(async () => {
-            await Promise.all(
-              items.map((item: any) => {
-                removeItem(item.id);
-              })
-            ).then(() => {
-              addAlert({
-                severity: "success",
-                message: "Pedido concluído! \n Redirecionando...",
-              });
-
-              setTimeout(() => {
-                router.push("/");
-              }, 1000);
-            });
-          })
-          .catch((error) => {
-            if (error.message == "Request failed with status code 401") {
-              logout();
-              router.push("/login");
-              return;
-            }
-
+      await api
+        .post(`/requests`, {
+          code,
+          requests: items,
+        })
+        .then(async () => {
+          await Promise.all(
+            items.map((item: any) => {
+              removeItem(item.id);
+            })
+          ).then(() => {
             addAlert({
-              severity: "error",
-              message: "Verifique os itens novamente!",
+              severity: "success",
+              message: "Pedido concluído! \n Redirecionando...",
             });
-          })
-          .finally(() => setLoading(false));
-      });
+
+            setTimeout(() => {
+              router.push("/");
+            }, 500);
+          });
+        })
+        .catch((error) => {
+          if (error.message == "Request failed with status code 401") {
+            logout();
+            router.push("/login");
+            return;
+          }
+
+          addAlert({
+            severity: "error",
+            message: "Verifique os itens novamente!",
+          });
+        })
+        .finally(() => setLoading(false));
     }
   };
 

@@ -34,27 +34,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const { "choconatys.token": token } = parseCookies();
-
-    if (token) {
-      verifyToken(token).then(({ user, token }: AuthResponseLogin) => {
-        setCookie(undefined, "choconatys.token", token, {
-          maxAge: 60 * 60 * 1, // UMA HORA
-        });
-
-        setCookie(undefined, "choconatys.user", JSON.stringify(user), {
-          maxAge: 60 * 60 * 1, // UMA HORA
-        });
-
-        api.defaults.headers["Authorization"] = `Bearer ${token}`;
-
-        return user;
-      });
-    }
-
-    return null;
-  });
+  const [user, setUser] = useState<User | null>();
 
   const isAuthenticated = !!user;
 

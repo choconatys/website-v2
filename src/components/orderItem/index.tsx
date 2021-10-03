@@ -7,7 +7,12 @@ import {
   ItemDescription,
   ItemOrder,
   ItemProduct,
+  ItemBottom,
+  ItemMiddle,
+  ImageStatus,
 } from "./styles";
+
+import Aguardando from "../../assets/emAguardo.png";
 
 export interface OrderItemProps {
   order: {
@@ -20,15 +25,24 @@ export interface OrderItemProps {
         name: string;
       };
     }[];
+    total: number;
+    status: RequestsType;
   };
+}
+
+enum RequestsType {
+  AGUARDANDO_CONFIRMACAO = "AGUARDANDO_CONFIRMACAO",
+  EM_PRODUCAO = "EM_PRODUCAO",
+  PRONTO_PARA_ENVIO = "PRONTO_PARA_ENVIO",
+  ENVIADO = "ENVIADO",
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }: OrderItemProps) => {
   const [showMore, setShowMore] = useState<boolean>(false);
 
   return (
-    <Container onClick={() => setShowMore(!showMore)}>
-      <ItemOrder>
+    <Container>
+      <ItemOrder onClick={() => setShowMore(!showMore)}>
         <div className="info">
           <h2>#{order.code}</h2>
         </div>
@@ -36,7 +50,9 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }: OrderItemProps) => {
         <div className="status">
           <div className="circle green"></div>
 
-          <p>EM ANDAMENTO</p>
+          {order.status === RequestsType.AGUARDANDO_CONFIRMACAO && (
+            <p>Aguardando Confirmação</p>
+          )}
 
           <ButtonMore>
             {showMore ? (
@@ -68,6 +84,20 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }: OrderItemProps) => {
               </h3>
             </ItemProduct>
           ))}
+
+          <ItemMiddle>
+            {order.status === RequestsType.AGUARDANDO_CONFIRMACAO && (
+              <div className="info">
+                <ImageStatus src={Aguardando} alt="Image Status" />
+                <p>Aguardando Confirmação</p>
+              </div>
+            )}
+          </ItemMiddle>
+
+          <ItemBottom>
+            <h2>Total</h2>
+            <h1>{balance(order.total)}</h1>
+          </ItemBottom>
         </ItemDescription>
       )}
     </Container>

@@ -2,10 +2,11 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const Container = styled(motion.div)`
-  cursor: pointer;
+  margin-bottom: 2rem;
 `;
 
 export const ItemOrder = styled(motion.section)`
+  cursor: pointer;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -60,6 +61,7 @@ export const ItemOrder = styled(motion.section)`
 `;
 
 export const ItemDescription = styled(motion.section)`
+  position: relative;
   background: var(--white);
 
   width: 100%;
@@ -85,3 +87,43 @@ export const ItemProduct = styled.div`
 `;
 
 export const ButtonMore = styled.button``;
+
+export const ItemMiddle = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  margin-top: 4rem;
+  margin-bottom: 5rem;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+export const ImageStatus = styled.img`
+  width: 20rem;
+`;
+
+export const ItemBottom = styled.footer`
+  position: absolute;
+
+  bottom: 2rem;
+  right: 2rem;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: -0.2rem;
+  }
+`;
