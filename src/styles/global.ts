@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 import { createTheme } from "@material-ui/core/styles";
-import { motion } from "framer-motion";
 import { shade } from "polished";
 
 export default createGlobalStyle`
@@ -16,6 +15,8 @@ export default createGlobalStyle`
     --text: #414143;
     --textSecondary: #717171;
     --green: #53A875;
+    --blue: #2e5de8;
+    --orange: #f29a4e;
   }
 
   html {
@@ -115,6 +116,18 @@ export default createGlobalStyle`
 
   .green {
     background: var(--green);
+  }
+
+  .orange {
+    background: var(--orange);
+  }
+
+  .yellow {
+    background: var(--yellow);
+  }
+
+  .blue {
+    background: var(--blue);
   }
 `;
 

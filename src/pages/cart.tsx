@@ -71,6 +71,7 @@ const Cart: React.FC = (props: any) => {
         severity: "error",
         message: "Você precisa estar logado!",
       });
+      setLoading(false);
     } else {
       const code = makeId(8);
 
@@ -96,12 +97,7 @@ const Cart: React.FC = (props: any) => {
           });
         })
         .catch((error) => {
-          if (error.message == "Request failed with status code 401") {
-            logout();
-            router.push("/login");
-            return;
-          }
-
+          console.log(error.data);
           addAlert({
             severity: "error",
             message: "Verifique os itens novamente!",

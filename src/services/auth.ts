@@ -42,10 +42,7 @@ export async function verifyToken(token: string): Promise<AuthResponseLogin> {
       token,
     })
     .then((responseLogin) => {
-      console.log(responseLogin);
       const { user, token }: AuthResponseLogin = responseLogin.data.data;
-
-      console.log(user, token);
 
       return {
         user,
