@@ -3,7 +3,7 @@ import { Alert } from "@mui/material";
 import { useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useAlert } from "../../prodivers/alert";
+import { useAlert } from "../../providers/alert";
 import { Container } from "./styles";
 
 interface AlertBoxProps extends AlertProps {

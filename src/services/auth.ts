@@ -6,10 +6,7 @@ export type LoginData = {
   password: string;
 };
 
-export type AuthResponseLogin = {
-  user: User;
-  token: string;
-};
+export type AuthResponseLogin = {};
 
 export async function loginRequest({
   email,
@@ -20,8 +17,8 @@ export async function loginRequest({
       email,
       password,
     })
-    .then((responseLogin) => {
-      const { user, token }: AuthResponseLogin = responseLogin.data.data;
+    .then((responseLogin: any) => {
+      const { user, token }: any = responseLogin.data.data;
 
       return {
         user,
@@ -41,8 +38,8 @@ export async function verifyToken(token: string): Promise<AuthResponseLogin> {
     .post("/sessions/verify", {
       token,
     })
-    .then((responseLogin) => {
-      const { user, token }: AuthResponseLogin = responseLogin.data.data;
+    .then((responseLogin: any) => {
+      const { user, token }: any = responseLogin.data.data;
 
       return {
         user,

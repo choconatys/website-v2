@@ -14,10 +14,10 @@ import Header from "../components/header";
 import Button from "../components/button";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useAuth } from "../prodivers/auth";
+import { useAuth } from "../providers/auth";
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
-import { useAlert } from "../prodivers/alert";
+import { useAlert } from "../providers/alert";
 import router from "next/router";
 import { CircularProgress } from "@material-ui/core";
 

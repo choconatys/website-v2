@@ -16,9 +16,8 @@ import {
 
 import Button from "../button";
 import balance from "../../services/balance";
-import { useAlert } from "../../prodivers/alert";
+import { useAlert } from "../../providers/alert";
 import { useCart } from "react-use-cart";
-import { useAuth } from "../../prodivers/auth";
 
 interface ProductModalProps {
   product: ProductsData;

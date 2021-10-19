@@ -19,10 +19,10 @@ import {
   FinishOrder,
 } from "../styles/pages/cart";
 import { HiMinusSm, HiPlus } from "react-icons/hi";
-import { useAlert } from "../prodivers/alert";
+import { useAlert } from "../providers/alert";
 import ErrorModel from "../components/errorModel";
 import balance from "../services/balance";
-import { useAuth } from "../prodivers/auth";
+import { useAuth } from "../providers/auth";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { api } from "../services/api";

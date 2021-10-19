@@ -7,18 +7,11 @@ import GlobalStyle, { myTheme } from "../styles/global";
 import Head from "next/head";
 
 import Loading from "../components/loading";
-import { motion } from "framer-motion";
-import { Router, useRouter } from "next/dist/client/router";
-import { AlertProvider } from "../prodivers/alert";
-import { CartProvider } from "react-use-cart";
-import { AuthProvider, useAuth } from "../prodivers/auth";
-import AppProvider from "../prodivers";
+import { Router } from "next/dist/client/router";
+import AppProvider from "../providers";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [loading, setLoading] = useState<boolean>(true);
-
-  const {} = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     Router.events.on("routeChangeComplete", (e) => {

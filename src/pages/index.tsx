@@ -19,7 +19,7 @@ import {
 
 import { ButtonTop } from "../styles/global";
 import { useRouter } from "next/dist/client/router";
-import { useAuth } from "../prodivers/auth";
+import { useAuth } from "../providers/auth";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 

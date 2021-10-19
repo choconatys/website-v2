@@ -22,7 +22,7 @@ import {
   SkeletonItem,
   StackPagination,
 } from "../styles/pages/products";
-import { useAlert } from "../prodivers/alert";
+import { useAlert } from "../providers/alert";
 import ErrorModel from "../components/errorModel";
 import balance from "../services/balance";
 import { CircularProgress } from "@mui/material";

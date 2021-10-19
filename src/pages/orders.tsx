@@ -12,7 +12,7 @@ import {
   HeaderContent,
   Items,
 } from "../styles/pages/orders";
-import { useAlert } from "../prodivers/alert";
+import { useAlert } from "../providers/alert";
 import ErrorModel from "../components/errorModel";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";

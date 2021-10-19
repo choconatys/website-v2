@@ -9,8 +9,8 @@ import Header from "../components/header";
 
 import { HiOutlineChevronLeft } from "react-icons/hi";
 
-import { useAlert } from "../prodivers/alert";
-import { useAuth } from "../prodivers/auth";
+import { useAlert } from "../providers/alert";
+import { useAuth } from "../providers/auth";
 import { ButtonBack } from "../styles/global";
 import {
   Container,

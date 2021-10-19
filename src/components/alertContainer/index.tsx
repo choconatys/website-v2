@@ -1,7 +1,7 @@
 import { useTransition } from "react-spring";
 
 import AlertBox from "../alertBox";
-import { AlertMessage } from "../../prodivers/alert";
+import { AlertMessage } from "../../providers/alert";
 import { Container } from "./styles";
 import { useEffect, useState } from "react";
 
