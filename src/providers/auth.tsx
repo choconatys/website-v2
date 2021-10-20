@@ -122,7 +122,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = useCallback(async () => {
-    await Router.push("/login");
+    await Router.push("/");
     destroyCookie(undefined, "choconatys.token");
     destroyCookie(undefined, "choconatys.user");
     api.defaults.headers["Authorization"] = null;

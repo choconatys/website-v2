@@ -31,7 +31,7 @@ const Profile: React.FC = (props: any) => {
   const { inView, entry, ref } = useInView();
   const animationControl = useAnimation();
 
-  const { updateUser } = useAuth();
+  const { updateUser, logout } = useAuth();
   const { addAlert } = useAlert();
 
   const updateProfile = async (e: any) => {
@@ -146,6 +146,10 @@ const Profile: React.FC = (props: any) => {
                   disabled={!passwordField && !emailField}
                 >
                   {loading ? "Carregando..." : "Alterar"}
+                </Button>
+
+                <Button style={{ marginTop: 40 }} onClick={() => logout()}>
+                  Sair
                 </Button>
               </EditProfileForm>
             </motion.section>
