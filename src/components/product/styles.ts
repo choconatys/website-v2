@@ -60,7 +60,7 @@ export const Container = styled(motion.button)`
     }
   }
 
-  @media (max-width: 488px) {
+  @media (max-width: 350px) {
     .price {
       margin-top: 1rem;
     }

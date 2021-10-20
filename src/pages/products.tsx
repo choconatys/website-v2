@@ -145,9 +145,9 @@ const Products: React.FC = (props: any) => {
                   })}
                 </ProductList>
 
-                <StackPagination spacing={2}>
+                {/* <StackPagination spacing={2}>
                   <Pagination count={1} size="large" />
-                </StackPagination>
+                </StackPagination> */}
               </>
             ) : (
               <>
