@@ -12,7 +12,7 @@ import {
   LogoButton,
   FinalButton,
 } from "./styles";
-import { HiShoppingCart, HiShoppingBag } from "react-icons/hi";
+import { HiShoppingCart, HiShoppingBag, HiMenu, HiX } from "react-icons/hi";
 import { Badge } from "@mui/material";
 import { useCart } from "react-use-cart";
 
@@ -22,6 +22,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isAuthenticated }: HeaderProps) => {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(false);
+  const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -45,45 +46,107 @@ const Header: React.FC<HeaderProps> = ({ isAuthenticated }: HeaderProps) => {
         </section>
 
         {!isLoginPage && (
-          <section className="controllers">
-            <div className="buttons">
-              <Link href="/">
-                <a>Início</a>
-              </Link>
+          <>
+            <section className="controllers">
+              <div className="buttons">
+                <Link href="/">
+                  <a>Início</a>
+                </Link>
 
-              <Link href="/products">
-                <a>Cardápio</a>
-              </Link>
+                <Link href="/products">
+                  <a>Cardápio</a>
+                </Link>
 
-              {isAuthenticated && (
-                <>
-                  <Link href="/profile">
-                    <a>Perfil</a>
+                {isAuthenticated && (
+                  <>
+                    <Link href="/profile">
+                      <a>Perfil</a>
+                    </Link>
+
+                    <Link href="/orders">
+                      <a>
+                        <HiShoppingBag />
+                      </a>
+                    </Link>
+                  </>
+                )}
+
+                <Link href="/cart">
+                  <a>
+                    <Badge badgeContent={items.length} color="primary">
+                      <HiShoppingCart color="action" />
+                    </Badge>
+                  </a>
+                </Link>
+              </div>
+
+              {!isAuthenticated && (
+                <Link href="/signin">
+                  <FinalButton>Entrar</FinalButton>
+                </Link>
+              )}
+            </section>
+
+            <section className="menu-mobile">
+              <button
+                className="menu-mobile-button"
+                onClick={() => setMenuIsOpen(!menuIsOpen)}
+              >
+                <HiMenu />
+              </button>
+            </section>
+
+            {menuIsOpen && (
+              <section className="menu-mobile-items">
+                <button
+                  className="close-mobile-items"
+                  onClick={() => setMenuIsOpen(false)}
+                >
+                  <HiX />
+                </button>
+
+                <div className="buttons-mobile">
+                  <Link href="/">
+                    <a>Início</a>
                   </Link>
 
-                  <Link href="/orders">
+                  <Link href="/products">
+                    <a>Cardápio</a>
+                  </Link>
+
+                  {isAuthenticated && (
+                    <>
+                      <Link href="/profile">
+                        <a>Perfil</a>
+                      </Link>
+
+                      <Link href="/orders">
+                        <a>
+                          <HiShoppingBag />
+                        </a>
+                      </Link>
+                    </>
+                  )}
+
+                  <Link href="/cart">
                     <a>
-                      <HiShoppingBag />
+                      <Badge badgeContent={items.length} color="primary">
+                        <HiShoppingCart color="action" />
+                      </Badge>
                     </a>
                   </Link>
-                </>
-              )}
+                </div>
 
-              <Link href="/cart">
-                <a>
-                  <Badge badgeContent={items.length} color="primary">
-                    <HiShoppingCart color="action" />
-                  </Badge>
-                </a>
-              </Link>
-            </div>
-
-            {!isAuthenticated && (
-              <Link href="/signin">
-                <FinalButton>Entrar</FinalButton>
-              </Link>
+                {!isAuthenticated && (
+                  <Link href="/signin">
+                    <FinalButton style={{ margin: 0, marginTop: "2rem" }}>
+                      Entrar
+                    </FinalButton>
+                  </Link>
+                )}
+              </section>
             )}
-          </section>
+          </>
         )}
       </Navigator>
     </Container>

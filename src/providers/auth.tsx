@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
     const { "choconatys.token": token } = parseCookies();
 
     if (token) {
-      verifyToken(token).then(({ user, token }: AuthResponseLogin) => {
+      verifyToken(token).then(({ user, token }: any) => {
         setCookie(undefined, "choconatys.token", token, {
           maxAge: 60 * 60 * 1, // UMA HORA
         });
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
         password,
       })
       .then((responseLogin) => {
-        const { user, token }: AuthResponseLogin = responseLogin.data.data;
+        const { user, token }: any = responseLogin.data.data;
 
         if (user && token) {
           setCookie(undefined, "choconatys.token", token, {

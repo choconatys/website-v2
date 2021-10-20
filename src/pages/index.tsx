@@ -37,9 +37,9 @@ const Home: React.FC = (props: any) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <ButtonTop href="#topPage">
+        {/* <ButtonTop href="#topPage">
           <HiChevronUp />
-        </ButtonTop>
+        </ButtonTop> */}
 
         <Header isAuthenticated={props.isAuth} />
 

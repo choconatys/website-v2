@@ -23,6 +23,74 @@ export const Navigator = styled.nav`
     align-items: center;
   }
 
+  .menu-mobile {
+    display: none;
+
+    .menu-mobile-button {
+      color: var(--textHeader);
+
+      svg {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .menu-mobile-items {
+    .close-mobile-items {
+      position: absolute;
+      top: 2rem;
+
+      svg {
+        font-size: 2rem;
+        fill: var(--primary);
+      }
+    }
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 99;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--background);
+  }
+
+  .buttons-mobile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    a {
+      display: flex;
+      align-items: center;
+
+      svg {
+        font-size: 1.4rem;
+      }
+
+      color: var(--textHeader);
+      font-weight: 400;
+      font-size: 1.2rem;
+
+      transition: color 0.2s;
+
+      & + a {
+        margin-top: 3rem;
+      }
+
+      &:hover {
+        color: ${shade(0.1, "#FFFF")};
+      }
+    }
+  }
+
   .buttons {
     display: flex;
     align-items: center;
@@ -59,15 +127,21 @@ export const Navigator = styled.nav`
     .buttons {
       display: none;
     }
+
+    .menu-mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;
 
 export const LogoButton = styled.a`
-  width: 15rem;
+  width: 10rem;
 `;
 
 export const LogoTipo = styled.img`
-  width: 60%;
+  width: 10rem;
 `;
 
 export const FinalButton = styled.a`

@@ -29,6 +29,26 @@ export const FormWrapper = styled(motion.section)`
 
   border-radius: 0.5rem;
   box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
+
+  @media (max-width: 840px) {
+    max-width: 60%;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 80%;
+  }
+
+  @media (max-width: 470px) {
+    max-width: 90%;
+  }
+
+  @media (max-width: 500px) {
+    max-width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const FormAnimation = styled(motion.section)`
@@ -45,6 +65,16 @@ export const FormAnimation = styled(motion.section)`
 
     h2 {
       font-weight: 400;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .titles {
+      max-width: calc(100% -1rem);
+
+      h1 {
+        font-size: 2rem;
+      }
     }
   }
 `;
