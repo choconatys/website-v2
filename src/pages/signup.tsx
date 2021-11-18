@@ -72,7 +72,7 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Choconatys | Entrar</title>
+        <title>Choconatys | Criar uma Conta</title>
       </Head>
 
       <Container
