@@ -70,13 +70,16 @@ export function AuthProvider({ children }) {
   }
 
   async function createUser(data) {
-    return await api
+    await api
       .post("/users", data)
       .then(async (responseLogin) => {
         await login({ email: data.email, password: data.password });
       })
       .catch((error) => {
-        return "Não foi possivel criar a conta!";
+        addAlert({
+          severity: "error",
+          message: "Erro ao criar o usuario!",
+        });
       });
   }
 
@@ -121,13 +124,13 @@ export function AuthProvider({ children }) {
       });
   }
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     await Router.push("/");
     destroyCookie(undefined, "choconatys.token");
     destroyCookie(undefined, "choconatys.user");
     api.defaults.headers["Authorization"] = null;
     setUser(null);
-  }, []);
+  };
 
   return (
     <AuthContext.Provider
