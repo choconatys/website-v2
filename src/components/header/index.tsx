@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ isAuthenticated }: HeaderProps) => {
   const { items } = useCart();
 
   useEffect(() => {
-    if (router.pathname === "/signin") {
+    if (router.pathname === "/signin" || router.pathname === "/signup") {
       setIsLoginPage(true);
     }
   }, []);

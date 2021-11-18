@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 
@@ -127,6 +128,10 @@ const SignIn: React.FC = () => {
                     }
                     required
                   />
+
+                  <Link href="/signup">
+                    <a className="create-account">Criar Conta</a>
+                  </Link>
 
                   <Button
                     type="submit"

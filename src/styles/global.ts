@@ -129,6 +129,12 @@ export default createGlobalStyle`
   .blue {
     background: var(--blue);
   }
+
+  .create-account {
+    color: var(--primary);
+
+    margin: 1rem 0 0 0;
+  }
 `;
 
 export const myTheme = createTheme({
