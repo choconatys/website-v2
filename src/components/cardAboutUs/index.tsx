@@ -30,8 +30,8 @@ const CardAboutUs: React.FC = ({ ...props }) => {
         <h1>Sobre Nós</h1>
 
         <h2>
-          Bem vindo a Choconatys, procurando sempre trazer docura facilidade e
-          muito bem mais do que você normalmente ta equipado acostumado!
+          Bem vindo a Choconatys, procuramos sempre trazer doçura, facilidade e
+          alegria para o seu dia!
         </h2>
 
         <div className="controls">
